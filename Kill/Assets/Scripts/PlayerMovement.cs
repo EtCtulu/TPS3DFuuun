@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CinemachineFreeLook camera;
+    public GameObject poids;
 
     // Référence du Character Controller
     private CharacterController characterController;
@@ -52,8 +52,11 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-            // Player Shot
-
+        // Player Shot
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Instantiate(poids, transform.position, transform.rotation);
+        }
 
             // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.rotation.eulerAngles.z);

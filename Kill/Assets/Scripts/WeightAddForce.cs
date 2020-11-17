@@ -6,12 +6,18 @@ public class WeightAddForce : MonoBehaviour
 {
 
     private Rigidbody rb;
-    public float power = 50;
+    public float power = -8000;
+    public float upPower = -99000;
 
-    private void Awake()
+    private void Start()
     {
+        transform.parent = null;
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(transform.up * power, ForceMode.Impulse);
+        rb.AddForce(transform.up * upPower, ForceMode.Impulse);
         rb.AddForce(transform.forward * power, ForceMode.Impulse);
+        
+        
     }
+
+
 }
