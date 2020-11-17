@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using UnityEditor.Timeline;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public CinemachineFreeLook camera;
+
     // Référence du Character Controller
     private CharacterController characterController;
 
-    public Transform camera;
 
     // Référence de la moveSpeed
-    [SerializeField]
-    public float moveSpeed = 100;
+    public float moveSpeed = 5;
+    public float moveSpeedNegative = -5;
+
+    public Animator anim;
 
     private void Awake()
     {
@@ -23,16 +27,36 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Liaison des variables Horizontal et Verticales a l'axis
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
+        anim.SetBool("WalkT", false);
+        // Player Mvt
+        if (Input.GetKey(KeyCode.Z))
+        {
+            transform.Translate(Vector3.forward * (moveSpeed) * Time.deltaTime);
+            anim.SetBool("WalkT", true);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Translate(Vector3.forward * (moveSpeedNegative) * Time.deltaTime);
+            anim.SetBool("WalkT", true);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Translate(Vector3.right * (moveSpeed) * Time.deltaTime);
+            anim.SetBool("WalkT", true);
+        }
+            if (Input.GetKey(KeyCode.Q))
+        {
+            transform.Translate(Vector3.right * (moveSpeedNegative) * Time.deltaTime);
+            anim.SetBool("WalkT", true);
+        }
 
-        // Combinaison des deux dans une variable Movement
-        var movement = new Vector3(horizontal, 0, vertical);
 
-        // Attribution de Mvt au CC
-        characterController.SimpleMove(movement * Time.deltaTime * moveSpeed);
 
-        transform.rotation = camera.transform.rotation;
+            // Player Shot
+
+
+            // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.rotation.eulerAngles.z);
+
     }
 }
