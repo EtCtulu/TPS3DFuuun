@@ -6,7 +6,13 @@ using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    // Le gunpoint
+    public GameObject gunPoint;
+
+    // Les usables
     public GameObject poids;
+    public GameObject mine;
 
     // Référence du Character Controller
     private CharacterController characterController;
@@ -27,7 +33,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Reset de l'anim de marche si inactif
         anim.SetBool("WalkT", false);
+
         // Player Mvt
         if (Input.GetKey(KeyCode.Z))
         {
@@ -55,7 +63,13 @@ public class PlayerMovement : MonoBehaviour
         // Player Shot
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(poids, transform.position, transform.rotation);
+            Instantiate(poids, gunPoint.transform.position, gunPoint.transform.rotation);
+        }
+
+        //Player Mine1
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Instantiate(mine, gunPoint.transform.position, gunPoint.transform.rotation);
         }
 
             // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
