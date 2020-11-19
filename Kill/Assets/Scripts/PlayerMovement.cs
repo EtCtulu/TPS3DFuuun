@@ -14,6 +14,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject poids;
     public GameObject mine;
 
+    [Range(0,1000)]
+    public float horizontalPower = 800;
+
+    float verticalPower = 1000;
+    
+
     // Référence du Character Controller
     private CharacterController characterController;
 
@@ -63,7 +69,10 @@ public class PlayerMovement : MonoBehaviour
         // Player Shot
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(poids, gunPoint.transform.position, gunPoint.transform.rotation);
+            Vector3 arc = new Vector3(0, verticalPower, horizontalPower);
+            GameObject alter = Instantiate(poids, gunPoint.transform.position, gunPoint.transform.rotation);
+            // alter.GetComponent<Rigidbody>().AddForce(transform.position * arc, ForceMode.Force);
+            
         }
 
         //Player Mine1
