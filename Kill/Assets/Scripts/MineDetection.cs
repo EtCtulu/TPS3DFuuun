@@ -28,7 +28,6 @@ public class MineDetection : MonoBehaviour
     private IEnumerator ExplosionEnd()
     {
         yield return new WaitForSeconds(0.5f);
-        print("Coroutine ended");
         Destroy(gameObject);
     }
 }
