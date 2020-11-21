@@ -36,6 +36,7 @@ public class enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, player.transform.eulerAngles.y,
             transform.rotation.eulerAngles.z);
 
@@ -99,6 +100,7 @@ public class enemy : MonoBehaviour
         GameManager._instance.score = GameManager._instance.score + 100;
         Debug.Log("Score : " + GameManager._instance.score);
         //FindObjectOfType<AudioManager>().Play("ImpDeath");
+        GameManager._instance.countEnemi++;
     }
 }
 

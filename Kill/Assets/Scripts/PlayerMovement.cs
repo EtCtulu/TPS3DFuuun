@@ -81,7 +81,8 @@ public class PlayerMovement : MonoBehaviour
         //Player Mine1
         if (Input.GetKeyDown(KeyCode.G))
         {
-            Instantiate(mine, gunPoint);
+            GameObject themine = Instantiate(mine, gunPoint);
+            themine.transform.parent = null;
         }
 
             // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
