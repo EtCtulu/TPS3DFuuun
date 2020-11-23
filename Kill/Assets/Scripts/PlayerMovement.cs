@@ -8,66 +8,101 @@ using Cinemachine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    // Variables Vie Shield
-    private int _hp = 100;
-    private int _shield = 0;
-    
-    // Le gunpoint
-    public Transform gunPoint;
+    public static PlayerMovement s_singletonPlayer;
 
-    // Les usables
+    #region Public fields
+
+    // Les touches
+    [Header("Keys")] 
+    public KeyCode forwardPositive = KeyCode.Z;
+    public KeyCode forwardNegative = KeyCode.S;
+    public KeyCode rightPositive = KeyCode.D;
+    public KeyCode rightNegative = KeyCode.Q;
+    
+    // Variables Vie Shield
+    [Header("HP / Shield Settings")]
+    public int hp = 100;
+    public int shield = 0;
+    
+    // Les settings de marche ou de run
+    [Header("Walk / Run Settings")] 
+    public float runSpeed;
+    
+    // La vitesse actuelle
+    [Header("Current Speed")] 
+    public float currentSpeed;
+
+    // Les options de saut
+    [Header("Jump Settings")] 
+    public float playerJumpForce;
+    public ForceMode appliedForceMode;
+    public bool playerIsJumping;
+    
+    // Les usables et le gunpoint
+    [Header("Usable Settings")]
     public GameObject poids;
     public GameObject mine;
-
+    public Transform gunPoint;
+    
+    // Angle d'utilisation des projectiles a angle
+    [Header("Angle Projectile Settings")]
     [Range(0, 1000)] public float power = 30;
     [Range(0, 1000)] public float angle = 70;
     
-
-    // Référence du Character Controller
-    private CharacterController characterController;
-
-
-    // Référence de la moveSpeed
-    public float moveSpeed = 5;
-    public float moveSpeedNegative = -5;
-
+    // Les sfx et les anims
+    [Header("SFX / VFX Settings")]
     public Animator anim;
 
+    #endregion
+
+    #region Private fields
+
+    // Reférence les axes X et Z
+    private float _xAxis;
+    private float _zAxis;
+    
+    // Référence du rigidbody
+    private Rigidbody _rb;
+    
+    // Check du collider avec le sol
+    private RaycastHit _hit;
+    private Vector3 _groundLocation;
+    private bool _isCapslockPressedDown;
+    
+
+    #endregion
+
+    #region Monodevelop Routines
+    
+    
     private void Awake()
     {
-        // Attribution du character controller 
-        characterController = GetComponent<CharacterController>();
+        #region Initialize
+
+
+        // Déclaration du singleton du joueur
+        if (s_singletonPlayer != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            s_singletonPlayer = this;
+            _rb = GetComponent<Rigidbody>();
+        }
+        
+        #endregion
     }
 
+    #endregion
 
     void Update()
     {
-        // Reset de l'anim de marche si inactif
-        anim.SetBool("WalkT", false);
+        #region Input region
 
-        // Player Mvt
-        if (Input.GetKey(KeyCode.Z))
-        {
-            transform.Translate(Vector3.forward * ((moveSpeed) * Time.deltaTime));
-            anim.SetBool("WalkT", true);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.forward * ((moveSpeedNegative) * Time.deltaTime));
-            anim.SetBool("WalkT", true);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(Vector3.right * ((moveSpeed) * Time.deltaTime));
-            anim.SetBool("WalkT", true);
-        }
-            if (Input.GetKey(KeyCode.Q))
-        {
-            transform.Translate(Vector3.right * ((moveSpeedNegative) * Time.deltaTime));
-            anim.SetBool("WalkT", true);
-        }
-
-
+        // Déclaration de l'axe
+        _xAxis = Input.GetAxis("Horizontal");
+        _zAxis = Input.GetAxis("Vertical");
 
         // Player Shot
         if (Input.GetButtonDown("Fire1"))
@@ -87,8 +122,19 @@ public class PlayerMovement : MonoBehaviour
 
             // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.rotation.eulerAngles.z);
-
+        
+            #endregion
             
+    }
+
+    private void FixedUpdate()
+    {
+        #region Move Player
+
+        _rb.MovePosition(transform.position + Time.deltaTime * currentSpeed * 
+                         transform.TransformDirection(_xAxis, 0f, _zAxis));
+
+        #endregion
     }
 
     private void OnTriggerEnter(Collider other)
@@ -97,15 +143,15 @@ public class PlayerMovement : MonoBehaviour
         {
             var attack = 20;
                 
-            if (_shield >= 15)
+            if (shield >= 15)
             {
                 attack = attack - 5;
-                _shield = _shield - 15;
+                shield = shield - 15;
             }
 
-            _hp = _hp - attack;
-            Debug.Log("Vie : " + _hp );
-            if (_hp <= 0)
+            hp = hp - attack;
+            Debug.Log("Vie : " + hp );
+            if (hp <= 0)
             {
                 Destroy(gameObject);
             }
