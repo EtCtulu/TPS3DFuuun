@@ -121,9 +121,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
             // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.rotation.eulerAngles.z);
+            // transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Camera.main.transform.eulerAngles.y, transform.rotation.eulerAngles.z);
         
             #endregion
+            
+            
             
     }
 
@@ -132,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         #region Move Player
 
         _rb.MovePosition(transform.position + Time.deltaTime * currentSpeed * 
-                         transform.TransformDirection(_xAxis, 0f, _zAxis));
+            transform.TransformDirection(_xAxis, 0f, _zAxis));
 
         #endregion
     }
