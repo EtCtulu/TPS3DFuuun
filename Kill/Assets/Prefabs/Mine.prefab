@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4285232600561250969}
   - component: {fileID: 4285232600561250970}
   - component: {fileID: 4285232600561250971}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ExplosionZone
   m_TagString: ExplosionMine
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4285232601230497638}
   - component: {fileID: 4285232601230497636}
   - component: {fileID: 4285232601230497637}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mine Whey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 4285232601711254635}
   - component: {fileID: 4285232601711254630}
   - component: {fileID: 2781846926234118644}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}

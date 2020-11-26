@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Spawners
   - Attack
+  - Player Model
   layers:
   - Default
   - TransparentFX
@@ -18,8 +19,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Mine
+  - Player
   - 
   - 
   - 

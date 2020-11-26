@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     private bool _gotWavedBy = false;
     private GameObject[] _spawners;
-    private int _numberOfSpawners = 5;
+    private int _numberOfSpawners = 3;
     private int _randomRange;
     private int _ennemiMax = 3;
     public int waveNumber = 1;

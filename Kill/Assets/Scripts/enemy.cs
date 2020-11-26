@@ -25,7 +25,7 @@ public class enemy : MonoBehaviour
     void Start()
     {
         // On cherche le joueur puis l'agent
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player Model");
         agent = GetComponent<NavMeshAgent>();
         // On cherche l'objet dans le gameObject des dégats
         attackPre = this.transform.Find("Attack").gameObject;

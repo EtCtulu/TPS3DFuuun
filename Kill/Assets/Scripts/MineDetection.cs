@@ -7,19 +7,16 @@ public class MineDetection : MonoBehaviour
 
     public GameObject blast;
 
+    private bool _engageTimeEnded = false;
+
     void Start()
     {
-
+        StartCoroutine(WaitBeforeExplosion());
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Enemy")
+        if(other.CompareTag("Enemy") && _engageTimeEnded == true)
         {
             blast.SetActive(true);
             StartCoroutine(ExplosionEnd());
@@ -29,5 +26,11 @@ public class MineDetection : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
+    }
+
+    private IEnumerator WaitBeforeExplosion()
+    {
+        yield return new WaitForSeconds(3f);
+        _engageTimeEnded = true;
     }
 }

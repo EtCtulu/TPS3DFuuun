@@ -9,7 +9,7 @@ public class EnemyLookAtPlayer : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player Model").GetComponent<Transform>();
     }
 
     // Update is called once per frame
