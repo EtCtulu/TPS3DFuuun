@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     // Les usables et le gunpoint
     [Header("Usable Settings")]
     public GameObject poids;
+
+    private int _mineCount = 0;
     public GameObject mine;
     public Transform gunPoint;
     
@@ -114,10 +116,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Player Mine1
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G) && _mineCount >= 1)
         {
             GameObject themine = Instantiate(mine, gunPoint);
             themine.transform.parent = null;
+            _mineCount--;
         }
 
             // Le quaternion euler est comme un .rotation sauf que l'on peut changer indépendament les valeurs xyz
@@ -141,6 +144,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Mine Collectible"))
+        {
+            _mineCount++;
+            Destroy(other.gameObject);
+            
+        }
         if (other.CompareTag("Attack"))
         {
             var attack = 20;
