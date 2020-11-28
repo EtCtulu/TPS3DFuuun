@@ -19,10 +19,12 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode rightPositive = KeyCode.D;
     public KeyCode rightNegative = KeyCode.Q;
     
-    // Variables Vie Shield
-    [Header("HP / Shield Settings")]
+    // Variables Vie / Shield / FireRate
+    [Header("HP / Shield / Fire Rate Settings")]
     public int hp = 100;
     public int shield = 0;
+    public float fireRate = 0.5f;
+    private float nextFire;
     
     // Les settings de marche ou de run
     [Header("Walk / Run Settings")] 
@@ -39,7 +41,8 @@ public class PlayerMovement : MonoBehaviour
     public bool playerIsJumping;
     
     // Les usables et le gunpoint
-    [Header("Usable Settings")]
+    [Header("Usable Settings")] 
+    public GameObject arrow;
     public GameObject poids;
 
     private int _mineCount = 0;
@@ -107,7 +110,14 @@ public class PlayerMovement : MonoBehaviour
         _zAxis = Input.GetAxis("Vertical");
 
         // Player Shot
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
+        {
+            nextFire = Time.time + +fireRate;
+            Destroy( Instantiate(arrow, gunPoint), 15f);
+        }
+        
+        // Player Axe
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             GameObject alter = Instantiate(poids, gunPoint);
             Vector3 projection = new Vector3(alter.transform.position.x,  Mathf.Abs(power * Mathf.Sin(angle)), Mathf.Abs(power * Mathf.Tan(angle)));

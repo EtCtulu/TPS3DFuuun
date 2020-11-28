@@ -11,6 +11,7 @@ TagManager:
   - Attack
   - Player Model
   - Mine Collectible
+  - Arrow
   layers:
   - Default
   - TransparentFX

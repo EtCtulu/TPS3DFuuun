@@ -84,10 +84,20 @@ public class enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Arrow"))
+        {
+            hp = hp - 40;
+            Debug.Log("HP Left" + hp);
+            if (hp <= 0)
+            {
+                
+                Destroy(gameObject);
+            }
+        }
         if (other.CompareTag("ExplosionMine"))
         {
             hp = hp - 100;
-            if (hp >= 0)
+            if (hp <= 0)
             {
                 Destroy(gameObject);
             }
