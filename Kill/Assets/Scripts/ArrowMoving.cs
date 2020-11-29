@@ -12,11 +12,12 @@ public class ArrowMoving : MonoBehaviour
     private void Start()
     {
         _rb = transform.GetComponent<Rigidbody>();
+        transform.parent = null;
     }
 
     void Update()
     {
-        _rb.AddForce(transform.forward * 20);
+        _rb.AddForce(transform.forward * 40);
     }
 
     private void OnTriggerEnter(Collider other)

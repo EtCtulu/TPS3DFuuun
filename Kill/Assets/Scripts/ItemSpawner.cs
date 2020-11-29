@@ -28,6 +28,8 @@ public class ItemSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(30f);
         Instantiate(itemToSpawn, locationToUse.transform);
+        _isItemOn = true;
         yield return 0;
+        
     }
 }

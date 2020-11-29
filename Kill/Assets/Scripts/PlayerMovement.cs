@@ -19,11 +19,12 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode rightPositive = KeyCode.D;
     public KeyCode rightNegative = KeyCode.Q;
     
-    // Variables Vie / Shield / FireRate
+    // Variables Vie / Shield / FireRate / FOV
     [Header("HP / Shield / Fire Rate Settings")]
     public int hp = 100;
     public int shield = 0;
-    public float fireRate = 0.5f;
+    public float fireRate = 0.25f;
+    public float mFieldOfView = 60;
     private float nextFire;
     
     // Les settings de marche ou de run
@@ -42,8 +43,10 @@ public class PlayerMovement : MonoBehaviour
     
     // Les usables et le gunpoint
     [Header("Usable Settings")] 
+    public GameObject playerSprite;
     public GameObject arrow;
     public GameObject poids;
+    private bool isArrowOn = true;
 
     private int _mineCount = 0;
     public GameObject mine;
@@ -109,20 +112,51 @@ public class PlayerMovement : MonoBehaviour
         _xAxis = Input.GetAxis("Horizontal");
         _zAxis = Input.GetAxis("Vertical");
 
+        // Player swap weapon
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (isArrowOn == false)
+            {
+                isArrowOn = true;
+                return;
+            }
+            else
+            {
+                isArrowOn = false;
+            }
+        }
+        
         // Player Shot
-        if (Input.GetButtonDown("Fire1") && Time.time > nextFire)
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && isArrowOn == true)
         {
             nextFire = Time.time + +fireRate;
             Destroy( Instantiate(arrow, gunPoint), 15f);
         }
         
         // Player Axe
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetButtonDown("Fire1") && Time.time > nextFire && isArrowOn == false)
         {
+            nextFire = Time.time + +fireRate;
             GameObject alter = Instantiate(poids, gunPoint);
             Vector3 projection = new Vector3(alter.transform.position.x,  Mathf.Abs(power * Mathf.Sin(angle)), Mathf.Abs(power * Mathf.Tan(angle)));
             alter.GetComponent<Rigidbody>().AddForce(projection, ForceMode.Force);
             
+        }
+        
+        //Player Aim
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Color tmp = playerSprite.GetComponent<SpriteRenderer>().color;
+            tmp.a = 0.05f;
+            playerSprite.GetComponent<SpriteRenderer>().color = tmp;
+            Camera.main.fieldOfView = mFieldOfView - 30;
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            Color tmp = playerSprite.GetComponent<SpriteRenderer>().color;
+            tmp.a = 1f;
+            playerSprite.GetComponent<SpriteRenderer>().color = tmp;
+            Camera.main.fieldOfView = mFieldOfView + 30;
         }
 
         //Player Mine1
